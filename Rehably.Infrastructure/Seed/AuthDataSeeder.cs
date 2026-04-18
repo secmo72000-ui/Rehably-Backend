@@ -11,23 +11,16 @@ public static class AuthDataSeeder
 {
     public static async Task SeedAsync(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, IWebHostEnvironment environment)
     {
-        if (!environment.IsDevelopment())
-            return;
-
+        // Always seed the platform admin if none exists (any environment)
         var adminUser = await context.Users
             .Include(u => u.UserRoles)
             .FirstOrDefaultAsync(u => u.Email == "admin@rehably.com");
 
-        if (adminUser != null)
+        if (adminUser == null)
         {
-            return;
-        }
-
-        var testUsers = new List<ApplicationUser>
-        {
-            new()
+            var admin = new ApplicationUser
             {
-                Id = "test-admin-001",
+                Id = "seed-admin-001",
                 Email = "admin@rehably.com",
                 UserName = "admin@rehably.com",
                 NormalizedEmail = "ADMIN@REHABLY.COM",
@@ -40,7 +33,18 @@ public static class AuthDataSeeder
                 ClinicId = null,
                 EmailVerified = true,
                 CreatedAt = DateTime.UtcNow
-            },
+            };
+            var result = await userManager.CreateAsync(admin, "Admin@Rehably2026!");
+            if (result.Succeeded)
+                await userManager.AddToRoleAsync(admin, "PlatformAdmin");
+        }
+
+        // Test users — development only
+        if (!environment.IsDevelopment())
+            return;
+
+        var testUsers = new List<ApplicationUser>
+        {
             new()
             {
                 Id = "test-user-001",
@@ -99,11 +103,7 @@ public static class AuthDataSeeder
                 throw new Exception($"Failed to create user {user.Email}: {string.Join(", ", result.Errors.Select(e => e.Description))}");
             }
 
-            if (user.Email == "admin@rehably.com")
-            {
-                await userManager.AddToRoleAsync(user, "PlatformAdmin");
-            }
-            else if (user.Email.Contains("owner"))
+            if (user.Email.Contains("owner"))
             {
                 await userManager.AddToRoleAsync(user, "ClinicOwner");
             }
