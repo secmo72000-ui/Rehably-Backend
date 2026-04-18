@@ -1,0 +1,25 @@
+# Build outputs
+**/bin/
+**/obj/
+
+# VS files
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# Secrets — NEVER commit
+appsettings.Development.json
+appsettings.Local.json
+.env
+.env.*
+**/secrets.json
+
+# Test results
+TestResults/
+*.coverage
+*.coveragexml
+
+# OS
+.DS_Store
+Thumbs.db

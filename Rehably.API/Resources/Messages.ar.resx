@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- General Messages -->
+  <data name="Success" xml:space="preserve">
+    <value>تمت العملية بنجاح.</value>
+  </data>
+  <data name="OperationFailed" xml:space="preserve">
+    <value>فشلت العملية. يرجى المحاولة مرة أخرى.</value>
+  </data>
+  <!-- Validation Errors -->
+  <data name="ValidationFailed" xml:space="preserve">
+    <value>فشل التحقق من الصحة.</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>المدخلات غير صالحة.</value>
+  </data>
+  <data name="MissingRequiredField" xml:space="preserve">
+    <value>حقل مطلوب مفقود.</value>
+  </data>
+  <data name="InvalidFormat" xml:space="preserve">
+    <value>تنسيق القيمة غير صالح.</value>
+  </data>
+  <data name="DuplicateEntry" xml:space="preserve">
+    <value>هذا الإدخال موجود بالفعل.</value>
+  </data>
+  <!-- Authentication Messages -->
+  <data name="AuthenticationFailed" xml:space="preserve">
+    <value>بريد إلكتروني أو كلمة مرور غير صالحة.</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>البريد الإلكتروني مطلوب.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>كلمة المرور مطلوبة.</value>
+  </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>تنسيق البريد الإلكتروني غير صالح.</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>بريد إلكتروني أو كلمة مرور غير صالحة.</value>
+  </data>
+  <data name="TokenExpired" xml:space="preserve">
+    <value>انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.</value>
+  </data>
+  <data name="TokenInvalid" xml:space="preserve">
+    <value>رمز المصادقة غير صالح.</value>
+  </data>
+  <data name="SessionExpired" xml:space="preserve">
+    <value>انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.</value>
+  </data>
+  <data name="OtpInvalid" xml:space="preserve">
+    <value>رمز التحقق غير صالح.</value>
+  </data>
+  <data name="OtpExpired" xml:space="preserve">
+    <value>انتهت صلاحية رمز التحقق. يرجى طلب رمز جديد.</value>
+  </data>
+  <!-- Authorization Errors -->
+  <data name="Unauthorized" xml:space="preserve">
+    <value>وصول غير مصرح به.</value>
+  </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>الوصول مرفوض.</value>
+  </data>
+  <data name="InsufficientPermissions" xml:space="preserve">
+    <value>ليس لديك إذن لتنفيذ هذا الإجراء.</value>
+  </data>
+  <data name="SubscriptionRequired" xml:space="preserve">
+    <value>يتطلب الاشتراك النشط للوصول إلى هذه الميزة.</value>
+  </data>
+  <data name="FeatureNotAvailable" xml:space="preserve">
+    <value>هذه الميزة غير متوفرة في خطتك الحالية.</value>
+  </data>
+  <data name="LimitExceeded" xml:space="preserve">
+    <value>لقد تجاوزت حد الاستخدام.</value>
+  </data>
+  <!-- Not Found Errors -->
+  <data name="NotFound" xml:space="preserve">
+    <value>المورد غير موجود.</value>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>المورد المطلوب غير موجود.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>المستخدم غير موجود.</value>
+  </data>
+  <data name="ClinicNotFound" xml:space="preserve">
+    <value>العيادة غير موجودة.</value>
+  </data>
+  <data name="SubscriptionNotFound" xml:space="preserve">
+    <value>الاشتراك غير موجود.</value>
+  </data>
+  <data name="PackageNotFound" xml:space="preserve">
+    <value>الباقة غير موجودة.</value>
+  </data>
+  <data name="FeatureNotFound" xml:space="preserve">
+    <value>الميزة غير موجودة.</value>
+  </data>
+  <data name="ExerciseNotFound" xml:space="preserve">
+    <value>التمرين غير موجود.</value>
+  </data>
+  <data name="TreatmentNotFound" xml:space="preserve">
+    <value>العلاج غير موجود.</value>
+  </data>
+  <data name="AssessmentNotFound" xml:space="preserve">
+    <value>التقييم غير موجود.</value>
+  </data>
+  <data name="DeviceNotFound" xml:space="preserve">
+    <value>الجهاز غير موجود.</value>
+  </data>
+  <data name="ModalityNotFound" xml:space="preserve">
+    <value>الطريقة غير موجودة.</value>
+  </data>
+  <data name="InvoiceNotFound" xml:space="preserve">
+    <value>الفاتورة غير موجودة.</value>
+  </data>
+  <data name="PaymentNotFound" xml:space="preserve">
+    <value>الدفع غير موجود.</value>
+  </data>
+  <!-- Conflict Errors -->
+  <data name="Conflict" xml:space="preserve">
+    <value>حدث تعارض مع البيانات الموجودة.</value>
+  </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>هذا البريد الإلكتروني مسجل بالفعل.</value>
+  </data>
+  <data name="DuplicateClinic" xml:space="preserve">
+    <value>عيادة بهذا الاسم موجودة بالفعل.</value>
+  </data>
+  <data name="ClinicAlreadyExists" xml:space="preserve">
+    <value>العيادة موجودة بالفعل.</value>
+  </data>
+  <data name="SubscriptionAlreadyActive" xml:space="preserve">
+    <value>الاشتراك نشط بالفعل.</value>
+  </data>
+  <data name="SubscriptionAlreadyCancelled" xml:space="preserve">
+    <value>الاشتراك ملغي بالفعل.</value>
+  </data>
+  <!-- Business Logic Errors -->
+  <data name="BusinessRuleViolation" xml:space="preserve">
+    <value>هذه العملية تنتهك قاعدة عمل.</value>
+  </data>
+  <data name="InvalidOperation" xml:space="preserve">
+    <value>هذه العملية غير صالحة في الحالة الحالية.</value>
+  </data>
+  <data name="InvalidStateTransition" xml:space="preserve">
+    <value>انتقال حالة غير صالح.</value>
+  </data>
+  <data name="ClinicNotActive" xml:space="preserve">
+    <value>العيادة غير نشطة.</value>
+  </data>
+  <data name="ClinicBanned" xml:space="preserve">
+    <value>تم حظر العيادة.</value>
+  </data>
+  <data name="ClinicPendingVerification" xml:space="preserve">
+    <value>العيادة في انتظار التحقق.</value>
+  </data>
+  <data name="PaymentFailed" xml:space="preserve">
+    <value>فشل الدفع. يرجى المحاولة مرة أخرى.</value>
+  </data>
+  <data name="RefundNotAllowed" xml:space="preserve">
+    <value>الاسترداد غير مسموح به لهذا الدفع.</value>
+  </data>
+  <!-- Server Errors -->
+  <data name="InternalError" xml:space="preserve">
+    <value>حدث خطأ داخلي. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="DatabaseError" xml:space="preserve">
+    <value>حدث خطأ في قاعدة البيانات. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="ExternalServiceError" xml:space="preserve">
+    <value>حدث خطأ في خدمة خارجية. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="EmailServiceError" xml:space="preserve">
+    <value>فشل إرسال البريد الإلكتروني. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="SmsServiceError" xml:space="preserve">
+    <value>فشل إرسال الرسالة القصيرة. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="PaymentServiceError" xml:space="preserve">
+    <value>خطأ في خدمة الدفع. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="FileUploadError" xml:space="preserve">
+    <value>فشل تحميل الملف. يرجى المحاولة مرة أخرى.</value>
+  </data>
+  <!-- Service Unavailable -->
+  <data name="ServiceUnavailable" xml:space="preserve">
+    <value>الخدمة غير متاحة مؤقتًا. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>النظام تحت الصيانة. يرجى المحاولة مرة أخرى لاحقًا.</value>
+  </data>
+</root>

@@ -1,0 +1,72 @@
+services:
+  - type: web
+    name: rehably-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: frankfurt   # closest to Egypt / MENA
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+
+      # ── Database ──────────────────────────────────────────
+      - key: ConnectionStrings__DefaultConnection
+        sync: false   # set manually in Render dashboard
+
+      - key: ConnectionStrings__AuditConnection
+        sync: false
+
+      # ── JWT ───────────────────────────────────────────────
+      - key: JwtSettings__Secret
+        sync: false
+      - key: JwtSettings__Issuer
+        sync: false
+      - key: JwtSettings__Audience
+        sync: false
+      - key: JwtSettings__ExpiryMinutes
+        value: "60"
+      - key: JwtSettings__RefreshTokenExpiryDays
+        value: "7"
+
+      # ── CORS ──────────────────────────────────────────────
+      - key: AllowedOrigins__0
+        sync: false   # set to your Vercel URL e.g. https://rehably.vercel.app
+
+      # ── App URLs ──────────────────────────────────────────
+      - key: AppSettings__FrontendUrl
+        sync: false   # https://rehably.vercel.app
+      - key: AppSettings__ApiUrl
+        sync: false   # https://rehably-api.onrender.com
+
+      # ── Cloudinary ────────────────────────────────────────
+      - key: CloudinarySettings__CloudName
+        sync: false
+      - key: CloudinarySettings__ApiKey
+        sync: false
+      - key: CloudinarySettings__ApiSecret
+        sync: false
+
+      # ── Email (Mailtrap) ──────────────────────────────────
+      - key: EmailSettings__SmtpHost
+        sync: false
+      - key: EmailSettings__SmtpPort
+        value: "587"
+      - key: EmailSettings__Username
+        sync: false
+      - key: EmailSettings__Password
+        sync: false
+      - key: EmailSettings__FromEmail
+        sync: false
+      - key: EmailSettings__FromName
+        value: "Rehably"
+
+      # ── Stripe ────────────────────────────────────────────
+      - key: PaymentSettings__Providers__1__ApiSecret
+        sync: false   # sk_live_... or sk_test_...
+      - key: PaymentSettings__Providers__1__WebhookSecret
+        sync: false   # whsec_...
+
+      # ── Hangfire (uses same DB) ────────────────────────────
+      - key: HangfireSettings__JobsStorageConnectionString
+        sync: false   # same as DefaultConnection

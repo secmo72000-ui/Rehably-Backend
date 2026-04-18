@@ -1,0 +1,42 @@
+using Rehably.Application.Common;
+using Rehably.Domain.Entities.Tenant;
+using Rehably.Domain.Enums;
+
+namespace Rehably.Application.Services.Storage;
+
+public interface IDocumentService
+{
+    Task<Result<ClinicDocument>> UploadDocumentAsync(
+        Guid clinicId,
+        DocumentType documentType,
+        string fileName,
+        Stream stream,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<ClinicDocument>> UploadDocumentFromBase64Async(
+        Guid clinicId,
+        DocumentType documentType,
+        string fileName,
+        string base64Data,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<bool>> DeleteDocumentAsync(
+        Guid clinicId,
+        Guid documentId,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<List<ClinicDocument>>> GetClinicDocumentsAsync(
+        Guid clinicId,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<ClinicDocument>> VerifyDocumentAsync(
+        Guid clinicId,
+        Guid documentId,
+        CancellationToken cancellationToken = default);
+
+    Task<Result<ClinicDocument>> RejectDocumentAsync(
+        Guid clinicId,
+        Guid documentId,
+        string reason,
+        CancellationToken cancellationToken = default);
+}

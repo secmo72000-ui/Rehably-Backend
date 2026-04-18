@@ -1,0 +1,6 @@
+@Rehably.API_HostAddress = http://localhost:5272
+
+GET {{Rehably.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

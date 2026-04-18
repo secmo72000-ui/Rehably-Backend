@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <!-- General Messages -->
+  <data name="Success" xml:space="preserve">
+    <value>Operation completed successfully.</value>
+  </data>
+  <data name="OperationFailed" xml:space="preserve">
+    <value>Operation failed. Please try again.</value>
+  </data>
+  <!-- Validation Errors -->
+  <data name="ValidationFailed" xml:space="preserve">
+    <value>Validation failed.</value>
+  </data>
+  <data name="InvalidInput" xml:space="preserve">
+    <value>Invalid input provided.</value>
+  </data>
+  <data name="MissingRequiredField" xml:space="preserve">
+    <value>A required field is missing.</value>
+  </data>
+  <data name="InvalidFormat" xml:space="preserve">
+    <value>The provided value has an invalid format.</value>
+  </data>
+  <data name="DuplicateEntry" xml:space="preserve">
+    <value>This entry already exists.</value>
+  </data>
+  <!-- Authentication Messages -->
+  <data name="AuthenticationFailed" xml:space="preserve">
+    <value>Invalid email or password.</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Email is required.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>Invalid email format.</value>
+  </data>
+  <data name="InvalidCredentials" xml:space="preserve">
+    <value>Invalid email or password.</value>
+  </data>
+  <data name="TokenExpired" xml:space="preserve">
+    <value>Your session has expired. Please log in again.</value>
+  </data>
+  <data name="TokenInvalid" xml:space="preserve">
+    <value>Invalid authentication token.</value>
+  </data>
+  <data name="SessionExpired" xml:space="preserve">
+    <value>Your session has expired. Please log in again.</value>
+  </data>
+  <data name="OtpInvalid" xml:space="preserve">
+    <value>Invalid OTP code.</value>
+  </data>
+  <data name="OtpExpired" xml:space="preserve">
+    <value>OTP code has expired. Please request a new one.</value>
+  </data>
+  <!-- Authorization Errors -->
+  <data name="Unauthorized" xml:space="preserve">
+    <value>Unauthorized access.</value>
+  </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>Access denied.</value>
+  </data>
+  <data name="InsufficientPermissions" xml:space="preserve">
+    <value>You do not have permission to perform this action.</value>
+  </data>
+  <data name="SubscriptionRequired" xml:space="preserve">
+    <value>An active subscription is required to access this feature.</value>
+  </data>
+  <data name="FeatureNotAvailable" xml:space="preserve">
+    <value>This feature is not available in your current plan.</value>
+  </data>
+  <data name="LimitExceeded" xml:space="preserve">
+    <value>You have exceeded your usage limit.</value>
+  </data>
+  <!-- Not Found Errors -->
+  <data name="NotFound" xml:space="preserve">
+    <value>Resource not found.</value>
+  </data>
+  <data name="ResourceNotFound" xml:space="preserve">
+    <value>The requested resource was not found.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="ClinicNotFound" xml:space="preserve">
+    <value>Clinic not found.</value>
+  </data>
+  <data name="SubscriptionNotFound" xml:space="preserve">
+    <value>Subscription not found.</value>
+  </data>
+  <data name="PackageNotFound" xml:space="preserve">
+    <value>Package not found.</value>
+  </data>
+  <data name="FeatureNotFound" xml:space="preserve">
+    <value>Feature not found.</value>
+  </data>
+  <data name="ExerciseNotFound" xml:space="preserve">
+    <value>Exercise not found.</value>
+  </data>
+  <data name="TreatmentNotFound" xml:space="preserve">
+    <value>Treatment not found.</value>
+  </data>
+  <data name="AssessmentNotFound" xml:space="preserve">
+    <value>Assessment not found.</value>
+  </data>
+  <data name="DeviceNotFound" xml:space="preserve">
+    <value>Device not found.</value>
+  </data>
+  <data name="ModalityNotFound" xml:space="preserve">
+    <value>Modality not found.</value>
+  </data>
+  <data name="InvoiceNotFound" xml:space="preserve">
+    <value>Invoice not found.</value>
+  </data>
+  <data name="PaymentNotFound" xml:space="preserve">
+    <value>Payment not found.</value>
+  </data>
+  <!-- Conflict Errors -->
+  <data name="Conflict" xml:space="preserve">
+    <value>A conflict occurred with existing data.</value>
+  </data>
+  <data name="DuplicateEmail" xml:space="preserve">
+    <value>This email is already registered.</value>
+  </data>
+  <data name="DuplicateClinic" xml:space="preserve">
+    <value>A clinic with this name already exists.</value>
+  </data>
+  <data name="ClinicAlreadyExists" xml:space="preserve">
+    <value>Clinic already exists.</value>
+  </data>
+  <data name="SubscriptionAlreadyActive" xml:space="preserve">
+    <value>Subscription is already active.</value>
+  </data>
+  <data name="SubscriptionAlreadyCancelled" xml:space="preserve">
+    <value>Subscription is already cancelled.</value>
+  </data>
+  <!-- Business Logic Errors -->
+  <data name="BusinessRuleViolation" xml:space="preserve">
+    <value>This operation violates a business rule.</value>
+  </data>
+  <data name="InvalidOperation" xml:space="preserve">
+    <value>This operation is not valid in the current state.</value>
+  </data>
+  <data name="InvalidStateTransition" xml:space="preserve">
+    <value>Invalid state transition.</value>
+  </data>
+  <data name="ClinicNotActive" xml:space="preserve">
+    <value>Clinic is not active.</value>
+  </data>
+  <data name="ClinicBanned" xml:space="preserve">
+    <value>Clinic has been banned.</value>
+  </data>
+  <data name="ClinicPendingVerification" xml:space="preserve">
+    <value>Clinic is pending verification.</value>
+  </data>
+  <data name="PaymentFailed" xml:space="preserve">
+    <value>Payment failed. Please try again.</value>
+  </data>
+  <data name="RefundNotAllowed" xml:space="preserve">
+    <value>Refund is not allowed for this payment.</value>
+  </data>
+  <!-- Server Errors -->
+  <data name="InternalError" xml:space="preserve">
+    <value>An internal error occurred. Please try again later.</value>
+  </data>
+  <data name="DatabaseError" xml:space="preserve">
+    <value>A database error occurred. Please try again later.</value>
+  </data>
+  <data name="ExternalServiceError" xml:space="preserve">
+    <value>An external service error occurred. Please try again later.</value>
+  </data>
+  <data name="EmailServiceError" xml:space="preserve">
+    <value>Failed to send email. Please try again later.</value>
+  </data>
+  <data name="SmsServiceError" xml:space="preserve">
+    <value>Failed to send SMS. Please try again later.</value>
+  </data>
+  <data name="PaymentServiceError" xml:space="preserve">
+    <value>Payment service error. Please try again later.</value>
+  </data>
+  <data name="FileUploadError" xml:space="preserve">
+    <value>Failed to upload file. Please try again.</value>
+  </data>
+  <!-- Service Unavailable -->
+  <data name="ServiceUnavailable" xml:space="preserve">
+    <value>Service is temporarily unavailable. Please try again later.</value>
+  </data>
+  <data name="MaintenanceMode" xml:space="preserve">
+    <value>System is under maintenance. Please try again later.</value>
+  </data>
+</root>
