@@ -50,6 +50,7 @@ public record ClinicResponse
     public string? OwnerFirstName { get; init; }
     public string? OwnerLastName { get; init; }
     public string? OwnerEmail { get; init; }
+    public string? TempPassword { get; init; }
     public string? PaymentMethod { get; init; }
     public List<ClinicSubscriptionFeatureDto> PackageFeatures { get; init; } = [];
     public List<ClinicDocumentDto> Documents { get; init; } = [];

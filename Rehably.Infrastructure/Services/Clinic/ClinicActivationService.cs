@@ -187,7 +187,8 @@ public class ClinicActivationService : IClinicActivationService
                 SubscriptionEndDate = subscription.EndDate,
                 PaymentType = request.PaymentType.ToString(),
                 PaymentTransactionId = paymentTransactionId,
-                PaymentReference = request.PaymentReference
+                PaymentReference = request.PaymentReference,
+                TempPassword = clinic.TempPassword
             });
         }
         catch (Exception ex)

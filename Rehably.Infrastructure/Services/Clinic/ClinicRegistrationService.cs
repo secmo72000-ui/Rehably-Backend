@@ -250,7 +250,7 @@ public class ClinicRegistrationService : IClinicRegistrationService
 
             await _unitOfWork.CommitTransactionAsync();
 
-            return Result<ClinicResponse>.Success(MapToResponse(clinic));
+            return Result<ClinicResponse>.Success(MapToResponse(clinic, tempPassword));
         }
         catch (Exception ex)
         {
@@ -390,7 +390,7 @@ public class ClinicRegistrationService : IClinicRegistrationService
         return new string(password.OrderBy(x => System.Security.Cryptography.RandomNumberGenerator.GetInt32(100)).ToArray());
     }
 
-    private ClinicResponse MapToResponse(Domain.Entities.Tenant.Clinic clinic)
+    private ClinicResponse MapToResponse(Domain.Entities.Tenant.Clinic clinic, string? tempPassword = null)
     {
         return new ClinicResponse
         {
@@ -424,6 +424,7 @@ public class ClinicRegistrationService : IClinicRegistrationService
             PatientsLimit = clinic.PatientsLimit,
             UsersCount = clinic.UsersCount,
             UsersLimit = clinic.UsersLimit,
+            TempPassword = tempPassword,
             PaymentMethod = clinic.CurrentSubscription?.PaymentType.ToString(),
             PackageFeatures = clinic.CurrentSubscription?.Package?.Features?
                 .Where(pf => pf.IsIncluded && pf.Feature != null)
