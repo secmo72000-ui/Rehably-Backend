@@ -271,7 +271,7 @@ public class ClinicRegistrationService : IClinicRegistrationService
             }
 
             _logger.LogError(ex, "Failed to create clinic for {Email}", request.OwnerEmail);
-            return Result<ClinicResponse>.Failure($"Failed to create clinic: {ex.GetType().Name}: {ex.Message}");
+            return Result<ClinicResponse>.Failure("Failed to create clinic. Please try again.");
         }
     }
 

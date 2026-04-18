@@ -64,13 +64,7 @@ public static class ServiceCollectionExtensions
         {
             var auditInterceptor = sp.GetService<AuditInterceptor>();
             var tenantContext = sp.GetService<ITenantContext>();
-            options.UseNpgsql(mainConnectionString, npgsqlOptions =>
-            {
-                npgsqlOptions.EnableRetryOnFailure(
-                    maxRetryCount: 3,
-                    maxRetryDelay: TimeSpan.FromSeconds(5),
-                    errorCodesToAdd: null);
-            });
+            options.UseNpgsql(mainConnectionString);
             options.ConfigureWarnings(w =>
                 w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
             if (auditInterceptor != null)
