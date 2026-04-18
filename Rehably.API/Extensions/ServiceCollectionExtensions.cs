@@ -66,13 +66,13 @@ public static class ServiceCollectionExtensions
             var tenantContext = sp.GetService<ITenantContext>();
             options.UseNpgsql(mainConnectionString, npgsqlOptions =>
             {
-                // Retry on transient failures (connection drops, brief unavailability)
-                // Retries: 3 attempts, max 5s delay between retries
                 npgsqlOptions.EnableRetryOnFailure(
                     maxRetryCount: 3,
                     maxRetryDelay: TimeSpan.FromSeconds(5),
                     errorCodesToAdd: null);
             });
+            options.ConfigureWarnings(w =>
+                w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
             if (auditInterceptor != null)
             {
                 options.AddInterceptors(auditInterceptor);
