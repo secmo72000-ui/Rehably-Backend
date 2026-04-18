@@ -124,6 +124,10 @@ using (var scope = app.Services.CreateScope())
 
     try
     {
+        logger.LogInformation("Applying pending migrations...");
+        await context.Database.MigrateAsync();
+        logger.LogInformation("Migrations applied successfully");
+
         logger.LogInformation("Starting database seeding...");
 
         await RoleSeeder.SeedAsync(context, roleManager);
