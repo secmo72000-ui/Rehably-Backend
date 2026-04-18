@@ -236,8 +236,15 @@ public class ClinicRegistrationService : IClinicRegistrationService
             await _userManager.AddToRoleAsync(createdUser, ownerRole.Name);
 
             var fullName = $"{request.OwnerFirstName} {request.OwnerLastName}".Trim();
-            var token = await _authPasswordService.GeneratePasswordResetTokenAsync(createdUser.Email!);
-            await _authService.SendWelcomeEmailAsync(createdUser.Email!, token, clinic.Name, fullName);
+            try
+            {
+                var token = await _authPasswordService.GeneratePasswordResetTokenAsync(createdUser.Email!);
+                await _authService.SendWelcomeEmailAsync(createdUser.Email!, token, clinic.Name, fullName);
+            }
+            catch (Exception emailEx)
+            {
+                _logger.LogWarning(emailEx, "Welcome email failed for clinic {ClinicId} — continuing", clinic.Id);
+            }
 
             await ProcessFormDocumentsAsync(clinic.Id, request.OwnerIdDocument, request.MedicalLicenseDocument);
 
