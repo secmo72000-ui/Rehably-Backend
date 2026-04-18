@@ -147,7 +147,10 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "An error occurred while seeding the database.");
+        logger.LogError(ex, "SEED ERROR: {Message} | InnerException: {Inner} | StackTrace: {Stack}",
+            ex.Message,
+            ex.InnerException?.Message ?? "none",
+            ex.StackTrace);
     }
 }
 
