@@ -25,9 +25,17 @@ public class MustChangePasswordMiddleware
             {
                 var path = context.Request.Path.Value ?? string.Empty;
 
-                var isChangePasswordEndpoint = path.StartsWith("/api/auth/change-password", StringComparison.OrdinalIgnoreCase);
+                var allowedPaths = new[]
+                {
+                    "/api/auth/change-password",
+                    "/api/auth/me",
+                    "/api/auth/logout",
+                    "/api/auth/refresh",
+                };
 
-                if (!isChangePasswordEndpoint)
+                var isAllowed = allowedPaths.Any(p => path.StartsWith(p, StringComparison.OrdinalIgnoreCase));
+
+                if (!isAllowed)
                 {
                     context.Response.StatusCode = 403;
                     context.Response.ContentType = "application/json";
