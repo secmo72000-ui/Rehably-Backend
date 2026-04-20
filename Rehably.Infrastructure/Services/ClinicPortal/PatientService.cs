@@ -143,7 +143,9 @@ public class PatientService : IPatientService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error creating patient for clinic {ClinicId}", _tenantContext.TenantId);
-            return Result<PatientDetailDto>.Failure("Failed to create patient");
+            // Return inner exception details for debugging (remove after fix)
+            var detail = ex.InnerException?.Message ?? ex.Message;
+            return Result<PatientDetailDto>.Failure($"Failed to create patient: {detail}");
         }
     }
 
