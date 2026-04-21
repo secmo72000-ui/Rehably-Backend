@@ -128,6 +128,11 @@ public class SubscriptionLimitMiddleware(RequestDelegate next, ILogger<Subscript
 
     private static string? GetFeatureForPath(string path)
     {
+        // Only gate quota-based features (things with a numeric limit per plan).
+        // Core functional features (appointments, invoices, sessions, reports) are
+        // included in all plans and must NOT be gated here — they are not seeded
+        // as quota features and checking them always returns "not included".
+
         if (path.Contains("/patients", StringComparison.OrdinalIgnoreCase))
             return "patients";
 
@@ -137,11 +142,12 @@ public class SubscriptionLimitMiddleware(RequestDelegate next, ILogger<Subscript
         if (path.Contains("/storage", StringComparison.OrdinalIgnoreCase) || path.Contains("/files", StringComparison.OrdinalIgnoreCase))
             return "storage";
 
-        if (path.Contains("/sms", StringComparison.OrdinalIgnoreCase) || path.Contains("/whatsapp", StringComparison.OrdinalIgnoreCase))
-            return "messaging";
+        // SMS / WhatsApp are quota features (limited sends per month)
+        if (path.Contains("/sms", StringComparison.OrdinalIgnoreCase))
+            return "sms";
 
-        if (path.Contains("/appointments", StringComparison.OrdinalIgnoreCase) || path.Contains("/calendar", StringComparison.OrdinalIgnoreCase))
-            return "appointments";
+        if (path.Contains("/whatsapp", StringComparison.OrdinalIgnoreCase))
+            return "whatsapp";
 
         return null;
     }
