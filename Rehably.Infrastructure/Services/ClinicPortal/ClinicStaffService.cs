@@ -12,11 +12,19 @@ namespace Rehably.Infrastructure.Services.ClinicPortal;
 public class ClinicStaffService : IClinicStaffService
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly ILogger<ClinicStaffService> _logger;
 
-    public ClinicStaffService(UserManager<ApplicationUser> userManager, ILogger<ClinicStaffService> logger)
+    // Roles that clinic owners are allowed to assign to staff
+    private static readonly HashSet<string> AllowedStaffRoles = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Doctor", "Receptionist", "User"
+    };
+
+    public ClinicStaffService(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, ILogger<ClinicStaffService> logger)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
         _logger = logger;
     }
 
@@ -72,32 +80,50 @@ public class ClinicStaffService : IClinicStaffService
 
     public async Task<Result<StaffMemberDto>> InviteStaffAsync(Guid clinicId, InviteStaffRequest request, CancellationToken ct = default)
     {
+        // Validate role before doing anything else
+        if (!string.IsNullOrWhiteSpace(request.Role))
+        {
+            if (!AllowedStaffRoles.Contains(request.Role))
+                return Result<StaffMemberDto>.Failure($"Invalid role '{request.Role}'. Allowed roles: {string.Join(", ", AllowedStaffRoles)}");
+
+            if (!await _roleManager.RoleExistsAsync(request.Role))
+                return Result<StaffMemberDto>.Failure($"Role '{request.Role}' does not exist in the system");
+        }
+
         var existing = await _userManager.FindByEmailAsync(request.Email);
         if (existing != null)
             return Result<StaffMemberDto>.Failure("Email already in use");
 
         var user = new ApplicationUser
         {
-            UserName          = request.Email,
-            Email             = request.Email,
-            FirstName         = request.FirstName,
-            LastName          = request.LastName,
-            PhoneNumber       = request.PhoneNumber,
-            ClinicId          = clinicId,
-            TenantId          = clinicId,
-            RoleType          = RoleType.Staff,
-            IsActive          = true,
+            UserName           = request.Email,
+            Email              = request.Email,
+            FirstName          = request.FirstName,
+            LastName           = request.LastName,
+            PhoneNumber        = request.PhoneNumber,
+            ClinicId           = clinicId,
+            TenantId           = clinicId,
+            RoleType           = RoleType.Staff,
+            IsActive           = true,
             MustChangePassword = true,
-            CreatedAt         = DateTime.UtcNow,
+            CreatedAt          = DateTime.UtcNow,
         };
 
         var tempPassword = $"Rehably@{Guid.NewGuid().ToString("N")[..8]}";
-        var result = await _userManager.CreateAsync(user, tempPassword);
-        if (!result.Succeeded)
-            return Result<StaffMemberDto>.Failure(string.Join(", ", result.Errors.Select(e => e.Description)));
+        var createResult = await _userManager.CreateAsync(user, tempPassword);
+        if (!createResult.Succeeded)
+            return Result<StaffMemberDto>.Failure(string.Join(", ", createResult.Errors.Select(e => e.Description)));
 
         if (!string.IsNullOrWhiteSpace(request.Role))
-            await _userManager.AddToRoleAsync(user, request.Role);
+        {
+            var addRoleResult = await _userManager.AddToRoleAsync(user, request.Role);
+            if (!addRoleResult.Succeeded)
+            {
+                // Rollback: delete the user we just created
+                await _userManager.DeleteAsync(user);
+                return Result<StaffMemberDto>.Failure($"Failed to assign role: {string.Join(", ", addRoleResult.Errors.Select(e => e.Description))}");
+            }
+        }
 
         var roles = await _userManager.GetRolesAsync(user);
         return Result<StaffMemberDto>.Success(MapToDto(user, roles));
