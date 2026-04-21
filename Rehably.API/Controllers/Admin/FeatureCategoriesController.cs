@@ -6,7 +6,7 @@ using Rehably.Application.Services.Platform;
 namespace Rehably.API.Controllers.Admin;
 
 /// <summary>
-/// Read-only access to feature categories for the platform.
+/// Feature category management for subscription packages.
 /// </summary>
 [ApiController]
 [Route("api/admin/feature-categories")]
@@ -22,9 +22,6 @@ public class FeatureCategoriesController : BaseController
         _categoryService = categoryService;
     }
 
-    /// <summary>
-    /// Get all feature categories.
-    /// </summary>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<List<FeatureCategoryDto>>> GetCategories(CancellationToken cancellationToken = default)
@@ -33,15 +30,48 @@ public class FeatureCategoriesController : BaseController
         return FromResult(result);
     }
 
-    /// <summary>
-    /// Get a feature category with all details including subcategories and features.
-    /// </summary>
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<FeatureCategoryDto>> GetCategory(Guid id, CancellationToken cancellationToken = default)
+    {
+        var result = await _categoryService.GetCategoryByIdAsync(id);
+        return FromResult(result);
+    }
+
     [HttpGet("{id:guid}/details")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<FeatureCategoryDetailDto>> GetCategoryWithDetails(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _categoryService.GetCategoryWithDetailsAsync(id);
+        return FromResult(result);
+    }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<FeatureCategoryDto>> CreateCategory([FromBody] CreateFeatureCategoryRequestDto request, CancellationToken cancellationToken = default)
+    {
+        var result = await _categoryService.CreateCategoryAsync(request);
+        return FromResult(result, 201);
+    }
+
+    [HttpPut("{id:guid}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<FeatureCategoryDto>> UpdateCategory(Guid id, [FromBody] UpdateFeatureCategoryRequestDto request, CancellationToken cancellationToken = default)
+    {
+        var result = await _categoryService.UpdateCategoryAsync(id, request);
+        return FromResult(result);
+    }
+
+    [HttpPost("{id:guid}/deactivate")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeactivateCategory(Guid id, CancellationToken cancellationToken = default)
+    {
+        var result = await _categoryService.DeactivateCategoryAsync(id);
         return FromResult(result);
     }
 }
