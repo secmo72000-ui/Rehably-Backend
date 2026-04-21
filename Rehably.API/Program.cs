@@ -1,6 +1,3 @@
-// Fix: Npgsql requires UTC DateTimes. Enable legacy mode to accept Unspecified Kind.
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Hangfire;
@@ -15,6 +12,9 @@ using Rehably.Infrastructure.Data;
 using Rehably.Infrastructure.Jobs;
 using Rehably.Infrastructure.Seed;
 using ApplicationRole = Rehably.Domain.Entities.Identity.ApplicationRole;
+
+// Fix: Npgsql v7+ requires UTC DateTimes. Enable legacy mode to accept Unspecified Kind.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 QuestPDF.Settings.License = LicenseType.Community;
 
