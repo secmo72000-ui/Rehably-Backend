@@ -1,3 +1,6 @@
+// Fix: Npgsql requires UTC DateTimes. Enable legacy mode to accept Unspecified Kind.
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Hangfire;
