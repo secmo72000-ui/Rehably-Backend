@@ -61,6 +61,19 @@ public class ClinicRolesController : BaseController
         return FromResult(result);
     }
 
+    /// <summary>
+    /// POST /api/clinic/roles/seed-defaults
+    /// Creates the 5 standard clinic roles (skips any that already exist).
+    /// Returns the list of role names that were newly created.
+    /// </summary>
+    [HttpPost("seed-defaults")]
+    public async Task<ActionResult<List<string>>> SeedDefaults(CancellationToken ct = default)
+    {
+        var clinicId = TenantId ?? Guid.Empty;
+        var result   = await _roleService.SeedDefaultRolesAsync(clinicId, ct);
+        return FromResult(result);
+    }
+
     [HttpPost("{roleName}/permissions/{permission}")]
     public async Task<ActionResult> AssignPermission(string roleName, string permission, CancellationToken ct = default)
     {

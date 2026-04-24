@@ -20,4 +20,7 @@ public interface IRoleManagementService
     Task<Result> AssignPermissionToRoleAsync(Guid clinicId, string roleName, string permission, CancellationToken cancellationToken = default);
 
     Task<Result> RemovePermissionFromRoleAsync(Guid clinicId, string roleName, string permission, CancellationToken cancellationToken = default);
+
+    /// <summary>Creates the 5 standard clinic roles if they don't already exist.</summary>
+    Task<Result<List<string>>> SeedDefaultRolesAsync(Guid clinicId, CancellationToken cancellationToken = default);
 }

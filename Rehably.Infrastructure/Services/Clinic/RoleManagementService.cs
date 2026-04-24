@@ -350,6 +350,114 @@ public class RoleManagementService : IRoleManagementService
         return Result.Success();
     }
 
+    // ── Preset role templates ──────────────────────────────────────────────────
+
+    private record RoleTemplate(string Name, string Description, string[] Permissions);
+
+    private static readonly RoleTemplate[] DefaultRoleTemplates =
+    [
+        new(
+            Name: "مالك العيادة",
+            Description: "Clinic owner — full access to all clinic features",
+            Permissions:
+            [
+                "patients.view",  "patients.create",  "patients.update",  "patients.delete",  "patients.discharge",
+                "appointments.view", "appointments.create", "appointments.update", "appointments.delete", "appointments.confirm", "appointments.cancel",
+                "treatment-plans.view", "treatment-plans.create", "treatment-plans.update", "treatment-plans.delete", "treatment-plans.activate", "treatment-plans.complete",
+                "staff.view", "staff.invite", "staff.update", "staff.deactivate",
+                "billing.view", "billing.create", "billing.update", "billing.delete", "billing.record_payment",
+                "reports.view", "reports.export",
+                "library.view", "library.create", "library.update", "library.delete",
+                "settings.view", "settings.update",
+                "branches.view", "branches.create", "branches.update", "branches.delete",
+                "roles.view", "roles.create", "roles.update", "roles.delete",
+            ]
+        ),
+        new(
+            Name: "أخصائي أول",
+            Description: "Senior physiotherapist — clinical + limited admin",
+            Permissions:
+            [
+                "patients.view", "patients.create", "patients.update", "patients.discharge",
+                "appointments.view", "appointments.create", "appointments.update", "appointments.confirm", "appointments.cancel",
+                "treatment-plans.view", "treatment-plans.create", "treatment-plans.update", "treatment-plans.activate", "treatment-plans.complete",
+                "billing.view",
+                "reports.view", "reports.export",
+                "library.view", "library.create", "library.update",
+                "staff.view",
+            ]
+        ),
+        new(
+            Name: "أخصائي علاج طبيعي",
+            Description: "Physiotherapist — patient care and treatment plans",
+            Permissions:
+            [
+                "patients.view", "patients.update",
+                "appointments.view", "appointments.create", "appointments.update", "appointments.confirm", "appointments.cancel",
+                "treatment-plans.view", "treatment-plans.create", "treatment-plans.update", "treatment-plans.activate", "treatment-plans.complete",
+                "library.view",
+                "billing.view",
+            ]
+        ),
+        new(
+            Name: "مشرف الاستقبال",
+            Description: "Head of reception — full front-desk + billing oversight",
+            Permissions:
+            [
+                "patients.view", "patients.create", "patients.update",
+                "appointments.view", "appointments.create", "appointments.update", "appointments.delete", "appointments.confirm", "appointments.cancel",
+                "billing.view", "billing.create", "billing.update", "billing.record_payment",
+                "reports.view",
+                "staff.view",
+            ]
+        ),
+        new(
+            Name: "موظف استقبال",
+            Description: "Receptionist — patient registration and appointment booking",
+            Permissions:
+            [
+                "patients.view", "patients.create",
+                "appointments.view", "appointments.create", "appointments.update", "appointments.confirm", "appointments.cancel",
+                "billing.view", "billing.create", "billing.record_payment",
+            ]
+        ),
+    ];
+
+    public async Task<Result<List<string>>> SeedDefaultRolesAsync(Guid clinicId, CancellationToken cancellationToken = default)
+    {
+        var created = new List<string>();
+
+        foreach (var template in DefaultRoleTemplates)
+        {
+            var existing = await _roleManager.FindByNameAsync(template.Name);
+            if (existing != null) continue; // skip — already exists
+
+            var role = new ApplicationRole
+            {
+                Name        = template.Name,
+                TenantId    = clinicId,
+                Description = template.Description,
+                IsCustom    = true,
+            };
+
+            var ir = await _roleManager.CreateAsync(role);
+            if (!ir.Succeeded)
+            {
+                _logger.LogWarning("Could not create default role {Name}: {Errors}", template.Name, string.Join(", ", ir.Errors.Select(e => e.Description)));
+                continue;
+            }
+
+            foreach (var perm in template.Permissions)
+                await _roleManager.AddClaimAsync(role, new Claim("Permission", perm));
+
+            created.Add(template.Name);
+        }
+
+        InvalidatePermissionCache();
+        _logger.LogInformation("Seeded {Count} default roles for clinic {ClinicId}", created.Count, clinicId);
+        return Result<List<string>>.Success(created);
+    }
+
     private void InvalidatePermissionCache()
     {
         _cache.Remove("PermissionCacheVersion");
