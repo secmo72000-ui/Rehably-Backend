@@ -250,6 +250,11 @@ public class RoleManagementService : IRoleManagementService
         return Result.Success();
     }
 
+    // Resources that belong to the super-admin / platform layer and must never
+    // appear in clinic-level role management.
+    private static readonly HashSet<string> PlatformOnlyResources =
+        new(StringComparer.OrdinalIgnoreCase) { "clinics", "platform" };
+
     public async Task<Result<List<PermissionDto>>> GetAvailablePermissionsAsync(Guid clinicId, CancellationToken cancellationToken = default)
     {
         var allPermissions = await _permissionService.GetAllPermissionsAsync(cancellationToken);
@@ -258,6 +263,10 @@ public class RoleManagementService : IRoleManagementService
         var result = new List<PermissionDto>();
         foreach (var permission in allPermissions)
         {
+            // Skip super-admin / platform permissions — not relevant to clinic roles
+            if (PlatformOnlyResources.Contains(permission.Resource))
+                continue;
+
             var permissionString = $"{permission.Resource}.{permission.Action}";
             var isAllowed = allowedPatterns.Any(pattern =>
                 _planPermissionService.PermissionMatchesPattern(permissionString, pattern));
