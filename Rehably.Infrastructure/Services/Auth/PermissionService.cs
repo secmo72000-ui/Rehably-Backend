@@ -12,27 +12,73 @@ public class PermissionService : IPermissionService
     private readonly IMemoryCache _cache;
     private readonly RoleManager<ApplicationRole> _roleManager;
 
-    private static readonly PermissionDto[] AllPermissions = new PermissionDto[]
-    {
-        new() { Resource = "clinics", Action = "view" },
-        new() { Resource = "clinics", Action = "create" },
-        new() { Resource = "clinics", Action = "update" },
-        new() { Resource = "clinics", Action = "delete" },
-        new() { Resource = "patients", Action = "view" },
-        new() { Resource = "patients", Action = "create" },
-        new() { Resource = "patients", Action = "update" },
-        new() { Resource = "patients", Action = "delete" },
-        new() { Resource = "appointments", Action = "view" },
-        new() { Resource = "appointments", Action = "create" },
-        new() { Resource = "appointments", Action = "update" },
-        new() { Resource = "appointments", Action = "delete" },
-        new() { Resource = "platform", Action = "manage_features" },
-        new() { Resource = "platform", Action = "manage_packages" },
-        new() { Resource = "platform", Action = "manage_subscriptions" },
-        new() { Resource = "platform", Action = "manage_feature_categories" },
-        new() { Resource = "platform", Action = "view_usage_stats" },
-        new() { Resource = "platform", Action = "manage_clinics" },
-    };
+    private static readonly PermissionDto[] AllPermissions =
+    [
+        // ── Clinic portal ──────────────────────────────────────────────────────
+        new() { Resource = "patients",         Action = "view"     },
+        new() { Resource = "patients",         Action = "create"   },
+        new() { Resource = "patients",         Action = "update"   },
+        new() { Resource = "patients",         Action = "delete"   },
+        new() { Resource = "patients",         Action = "discharge"},
+
+        new() { Resource = "appointments",     Action = "view"     },
+        new() { Resource = "appointments",     Action = "create"   },
+        new() { Resource = "appointments",     Action = "update"   },
+        new() { Resource = "appointments",     Action = "delete"   },
+        new() { Resource = "appointments",     Action = "confirm"  },
+        new() { Resource = "appointments",     Action = "cancel"   },
+
+        new() { Resource = "treatment-plans",  Action = "view"     },
+        new() { Resource = "treatment-plans",  Action = "create"   },
+        new() { Resource = "treatment-plans",  Action = "update"   },
+        new() { Resource = "treatment-plans",  Action = "delete"   },
+        new() { Resource = "treatment-plans",  Action = "activate" },
+        new() { Resource = "treatment-plans",  Action = "complete" },
+
+        new() { Resource = "staff",            Action = "view"     },
+        new() { Resource = "staff",            Action = "invite"   },
+        new() { Resource = "staff",            Action = "update"   },
+        new() { Resource = "staff",            Action = "deactivate"},
+
+        new() { Resource = "billing",          Action = "view"     },
+        new() { Resource = "billing",          Action = "create"   },
+        new() { Resource = "billing",          Action = "update"   },
+        new() { Resource = "billing",          Action = "delete"   },
+        new() { Resource = "billing",          Action = "record_payment" },
+
+        new() { Resource = "reports",          Action = "view"     },
+        new() { Resource = "reports",          Action = "export"   },
+
+        new() { Resource = "library",          Action = "view"     },
+        new() { Resource = "library",          Action = "create"   },
+        new() { Resource = "library",          Action = "update"   },
+        new() { Resource = "library",          Action = "delete"   },
+
+        new() { Resource = "settings",         Action = "view"     },
+        new() { Resource = "settings",         Action = "update"   },
+
+        new() { Resource = "branches",         Action = "view"     },
+        new() { Resource = "branches",         Action = "create"   },
+        new() { Resource = "branches",         Action = "update"   },
+        new() { Resource = "branches",         Action = "delete"   },
+
+        new() { Resource = "roles",            Action = "view"     },
+        new() { Resource = "roles",            Action = "create"   },
+        new() { Resource = "roles",            Action = "update"   },
+        new() { Resource = "roles",            Action = "delete"   },
+
+        // ── Platform / Super-Admin ─────────────────────────────────────────────
+        new() { Resource = "clinics",          Action = "view"     },
+        new() { Resource = "clinics",          Action = "create"   },
+        new() { Resource = "clinics",          Action = "update"   },
+        new() { Resource = "clinics",          Action = "delete"   },
+        new() { Resource = "platform",         Action = "manage_features"           },
+        new() { Resource = "platform",         Action = "manage_packages"           },
+        new() { Resource = "platform",         Action = "manage_subscriptions"      },
+        new() { Resource = "platform",         Action = "manage_feature_categories" },
+        new() { Resource = "platform",         Action = "view_usage_stats"          },
+        new() { Resource = "platform",         Action = "manage_clinics"            },
+    ];
 
     public PermissionService(IMemoryCache cache, RoleManager<ApplicationRole> roleManager)
     {

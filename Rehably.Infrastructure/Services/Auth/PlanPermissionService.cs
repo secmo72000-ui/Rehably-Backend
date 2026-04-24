@@ -65,7 +65,10 @@ public class PlanPermissionService : IPlanPermissionService
             return Array.Empty<string>();
         }
 
-        var permissions = Array.Empty<string>();
+        // Clinic has an active subscription — grant access to all clinic-level permissions.
+        // Fine-grained per-package permission scoping can be added here when package
+        // permission fields are defined. For now "*.*" unlocks the full permission catalogue.
+        var permissions = new[] { "*.*" };
 
         _cache.Set(cacheKey, permissions, CacheDuration);
         _logger.LogInformation("Cached {Count} permissions for clinic {ClinicId}", permissions.Length, clinicId);
