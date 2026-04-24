@@ -200,6 +200,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ITreatmentPlanService, TreatmentPlanService>();
         services.AddScoped<IClinicBranchService, ClinicBranchService>();
         services.AddScoped<IClinicStaffService, ClinicStaffService>();
+        services.AddScoped<IClinicWorkingHoursService, ClinicWorkingHoursService>();
         services.AddScoped<IClinicReportService, ClinicReportService>();
 
         // Billing services

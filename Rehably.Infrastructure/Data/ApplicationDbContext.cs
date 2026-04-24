@@ -72,6 +72,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<TreatmentPlan> TreatmentPlans => Set<TreatmentPlan>();
     public DbSet<TherapySession> TherapySessions => Set<TherapySession>();
     public DbSet<ClinicBranch> ClinicBranches => Set<ClinicBranch>();
+    public DbSet<ClinicWorkingHours> ClinicWorkingHours => Set<ClinicWorkingHours>();
 
     // ===== Billing =====
     public DbSet<InsuranceProvider> InsuranceProviders => Set<InsuranceProvider>();
@@ -204,6 +205,15 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             entity.Property(b => b.Email).HasMaxLength(200);
             entity.Property(b => b.Address).HasMaxLength(500);
             entity.Property(b => b.City).HasMaxLength(100);
+        });
+
+        builder.Entity<ClinicWorkingHours>(entity =>
+        {
+            entity.HasKey(w => w.Id);
+            entity.HasIndex(w => new { w.ClinicId, w.DayOfWeek }).IsUnique();
+            entity.HasIndex(w => w.ClinicId);
+            entity.Property(w => w.OpenTime).HasMaxLength(5);
+            entity.Property(w => w.CloseTime).HasMaxLength(5);
         });
 
         builder.Entity<ApplicationRole>(entity =>
