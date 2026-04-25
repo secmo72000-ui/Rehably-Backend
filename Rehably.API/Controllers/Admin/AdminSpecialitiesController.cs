@@ -70,6 +70,16 @@ public class AdminSpecialitiesController : BaseController
         return FromResult(result);
     }
 
+    /// <summary>Seed default rehabilitation specialities (skips existing codes)</summary>
+    [HttpPost("seed-defaults")]
+    [RequirePermission("platform.super_admin")]
+    [ProducesResponseType(typeof(ApiResponse<int>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<int>> SeedDefaults(CancellationToken ct = default)
+    {
+        var result = await _specialityService.SeedDefaultsAsync(ct);
+        return FromResult(result);
+    }
+
     /// <summary>Delete a speciality</summary>
     [HttpDelete("{id:guid}")]
     [RequirePermission("platform.super_admin")]

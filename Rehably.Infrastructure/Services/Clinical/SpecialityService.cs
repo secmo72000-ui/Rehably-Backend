@@ -93,6 +93,50 @@ public class SpecialityService : ISpecialityService
         return Result.Success();
     }
 
+    // ── Seed defaults ──────────────────────────────────────────────────────────
+
+    public async Task<Result<int>> SeedDefaultsAsync(CancellationToken ct = default)
+    {
+        var defaults = new[]
+        {
+            new { Code = "ORTHO",  NameEn = "Orthopedics",           NameAr = "العظام والمفاصل",      IcdChapters = "M",   Order = 1  },
+            new { Code = "NEURO",  NameEn = "Neurology",             NameAr = "الأعصاب",               IcdChapters = "G",   Order = 2  },
+            new { Code = "SPORTS", NameEn = "Sports Rehabilitation",  NameAr = "إعادة تأهيل رياضي",   IcdChapters = "S",   Order = 3  },
+            new { Code = "PEDS",   NameEn = "Pediatrics",            NameAr = "الأطفال",               IcdChapters = "Q",   Order = 4  },
+            new { Code = "GERI",   NameEn = "Geriatrics",            NameAr = "المسنين",               IcdChapters = "M,G", Order = 5  },
+            new { Code = "CARD",   NameEn = "Cardiopulmonary",       NameAr = "القلب والرئة",          IcdChapters = "I,J", Order = 6  },
+            new { Code = "BURNS",  NameEn = "Burns & Plastic",       NameAr = "الحروق والتجميل",      IcdChapters = "S",   Order = 7  },
+            new { Code = "WOMH",   NameEn = "Women's Health",        NameAr = "صحة المرأة",            IcdChapters = "O,N", Order = 8  },
+            new { Code = "ONCO",   NameEn = "Oncology Rehab",        NameAr = "إعادة تأهيل الأورام",   IcdChapters = "C",   Order = 9  },
+            new { Code = "HAND",   NameEn = "Hand Therapy",          NameAr = "علاج اليد",             IcdChapters = "M,S", Order = 10 },
+            new { Code = "SPINE",  NameEn = "Spine",                 NameAr = "العمود الفقري",         IcdChapters = "M",   Order = 11 },
+            new { Code = "VEST",   NameEn = "Vestibular",            NameAr = "الدهليزي والتوازن",     IcdChapters = "H,G", Order = 12 },
+        };
+
+        var existingCodes = await _db.Specialities.Select(s => s.Code).ToListAsync(ct);
+
+        var toAdd = defaults
+            .Where(d => !existingCodes.Contains(d.Code))
+            .Select(d => new Speciality
+            {
+                Code         = d.Code,
+                NameEn       = d.NameEn,
+                NameAr       = d.NameAr,
+                IcdChapters  = d.IcdChapters,
+                DisplayOrder = d.Order,
+                IsActive     = true,
+            })
+            .ToList();
+
+        if (toAdd.Count > 0)
+        {
+            _db.Specialities.AddRange(toAdd);
+            await _db.SaveChangesAsync(ct);
+        }
+
+        return Result<int>.Success(toAdd.Count);
+    }
+
     // ── Clinic assignment ──────────────────────────────────────────────────────
 
     public async Task<Result<List<ClinicSpecialityDto>>> GetClinicSpecialitiesAsync(Guid clinicId, CancellationToken ct = default)

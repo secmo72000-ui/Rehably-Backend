@@ -12,6 +12,9 @@ public interface ISpecialityService
     Task<Result<SpecialityDto>> UpdateAsync(Guid id, UpdateSpecialityRequest request, CancellationToken ct = default);
     Task<Result> DeleteAsync(Guid id, CancellationToken ct = default);
 
+    // ── Seeding ────────────────────────────────────────────────────────────────
+    Task<Result<int>> SeedDefaultsAsync(CancellationToken ct = default);
+
     // ── Clinic assignment ──────────────────────────────────────────────────────
     Task<Result<List<ClinicSpecialityDto>>> GetClinicSpecialitiesAsync(Guid clinicId, CancellationToken ct = default);
     Task<Result> AssignToClinicAsync(Guid clinicId, AssignSpecialitiesRequest request, CancellationToken ct = default);
