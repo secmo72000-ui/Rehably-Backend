@@ -2,10 +2,11 @@ namespace Rehably.Domain.Enums;
 
 public enum AppointmentStatus
 {
-    Scheduled = 0,
-    Confirmed = 1,
-    InProgress = 2,
-    Completed = 3,
-    Cancelled = 4,
-    NoShow = 5
+    Scheduled  = 0,  // Appointment booked
+    Confirmed  = 1,  // Appointment confirmed (patient acknowledged)
+    CheckedIn  = 2,  // Reception: patient arrived + payment confirmed
+    InProgress = 3,  // Doctor started the session / assessment
+    Completed  = 4,  // Assessment submitted / session done
+    Cancelled  = 5,
+    NoShow     = 6
 }

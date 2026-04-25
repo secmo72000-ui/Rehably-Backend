@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Rehably.Application.Contexts;
 using Rehably.Domain.Entities.Audit;
 using Rehably.Domain.Entities.Billing;
+using Rehably.Domain.Entities.Clinical;
 using Rehably.Domain.Entities.ClinicPortal;
 using Rehably.Domain.Entities.Identity;
 using Rehably.Domain.Entities.Library;
@@ -73,6 +74,18 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<TherapySession> TherapySessions => Set<TherapySession>();
     public DbSet<ClinicBranch> ClinicBranches => Set<ClinicBranch>();
     public DbSet<ClinicWorkingHours> ClinicWorkingHours => Set<ClinicWorkingHours>();
+
+    // ── Clinical Assessment ────────────────────────────────────────────────────
+    public DbSet<Speciality> Specialities => Set<Speciality>();
+    public DbSet<Diagnosis> Diagnoses => Set<Diagnosis>();
+    public DbSet<PatientAssessment> PatientAssessments => Set<PatientAssessment>();
+    public DbSet<AssessmentPostOp> AssessmentPostOps => Set<AssessmentPostOp>();
+    public DbSet<AssessmentRedFlags> AssessmentRedFlags => Set<AssessmentRedFlags>();
+    public DbSet<AssessmentSubjective> AssessmentSubjectives => Set<AssessmentSubjective>();
+    public DbSet<AssessmentObjective> AssessmentObjectives => Set<AssessmentObjective>();
+    public DbSet<AssessmentNeuro> AssessmentNeuros => Set<AssessmentNeuro>();
+    public DbSet<AssessmentClinicalReasoning> AssessmentClinicalReasonings => Set<AssessmentClinicalReasoning>();
+    public DbSet<ClinicAssessmentFieldConfig> ClinicAssessmentFieldConfigs => Set<ClinicAssessmentFieldConfig>();
 
     // ===== Billing =====
     public DbSet<InsuranceProvider> InsuranceProviders => Set<InsuranceProvider>();
@@ -214,6 +227,57 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             entity.HasIndex(w => w.ClinicId);
             entity.Property(w => w.OpenTime).HasMaxLength(5);
             entity.Property(w => w.CloseTime).HasMaxLength(5);
+        });
+
+        // ── Clinical Assessment ────────────────────────────────────────────────
+        builder.Entity<Speciality>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Code).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.NameEn).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.NameAr).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.IcdChapters).HasMaxLength(50);
+            entity.HasIndex(e => e.Code).IsUnique();
+        });
+
+        builder.Entity<Diagnosis>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.IcdCode).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.NameEn).IsRequired().HasMaxLength(300);
+            entity.Property(e => e.NameAr).IsRequired().HasMaxLength(300);
+            entity.HasIndex(e => new { e.IcdCode, e.ClinicId }).IsUnique();
+            entity.HasIndex(e => e.SpecialityId);
+            entity.HasOne(e => e.Speciality).WithMany(s => s.Diagnoses)
+                  .HasForeignKey(e => e.SpecialityId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(e => e.BodyRegion).WithMany()
+                  .HasForeignKey(e => e.BodyRegionCategoryId).OnDelete(DeleteBehavior.SetNull);
+        });
+
+        builder.Entity<PatientAssessment>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => e.AppointmentId);
+            entity.HasIndex(e => e.PatientId);
+            entity.HasIndex(e => e.ClinicId);
+            entity.HasOne(e => e.PostOp).WithOne(p => p.Assessment)
+                  .HasForeignKey<AssessmentPostOp>(p => p.AssessmentId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(e => e.RedFlags).WithOne(r => r.Assessment)
+                  .HasForeignKey<AssessmentRedFlags>(r => r.AssessmentId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(e => e.Subjective).WithOne(s => s.Assessment)
+                  .HasForeignKey<AssessmentSubjective>(s => s.AssessmentId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(e => e.Objective).WithOne(o => o.Assessment)
+                  .HasForeignKey<AssessmentObjective>(o => o.AssessmentId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(e => e.Neuro).WithOne(n => n.Assessment)
+                  .HasForeignKey<AssessmentNeuro>(n => n.AssessmentId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(e => e.ClinicalReasoning).WithOne(c => c.Assessment)
+                  .HasForeignKey<AssessmentClinicalReasoning>(c => c.AssessmentId).OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<ClinicAssessmentFieldConfig>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.HasIndex(e => new { e.ClinicId, e.StepNumber, e.FieldKey }).IsUnique();
         });
 
         builder.Entity<ApplicationRole>(entity =>
