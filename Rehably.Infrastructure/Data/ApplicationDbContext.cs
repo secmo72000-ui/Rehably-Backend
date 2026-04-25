@@ -86,6 +86,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<AssessmentNeuro> AssessmentNeuros => Set<AssessmentNeuro>();
     public DbSet<AssessmentClinicalReasoning> AssessmentClinicalReasonings => Set<AssessmentClinicalReasoning>();
     public DbSet<ClinicAssessmentFieldConfig> ClinicAssessmentFieldConfigs => Set<ClinicAssessmentFieldConfig>();
+    public DbSet<ClinicSpeciality> ClinicSpecialities => Set<ClinicSpeciality>();
 
     // ===== Billing =====
     public DbSet<InsuranceProvider> InsuranceProviders => Set<InsuranceProvider>();
@@ -278,6 +279,13 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         {
             entity.HasKey(e => e.Id);
             entity.HasIndex(e => new { e.ClinicId, e.StepNumber, e.FieldKey }).IsUnique();
+        });
+
+        builder.Entity<ClinicSpeciality>(entity =>
+        {
+            entity.HasKey(e => new { e.ClinicId, e.SpecialityId });
+            entity.HasOne(e => e.Speciality).WithMany(s => s.ClinicSpecialities)
+                  .HasForeignKey(e => e.SpecialityId).OnDelete(DeleteBehavior.Cascade);
         });
 
         builder.Entity<ApplicationRole>(entity =>

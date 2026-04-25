@@ -26,4 +26,5 @@ public class Speciality : BaseEntity
 
     // Navigation
     public ICollection<Diagnosis> Diagnoses { get; set; } = new List<Diagnosis>();
+    public ICollection<ClinicSpeciality> ClinicSpecialities { get; set; } = new List<ClinicSpeciality>();
 }
