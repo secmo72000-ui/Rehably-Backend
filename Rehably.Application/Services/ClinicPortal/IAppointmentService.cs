@@ -11,6 +11,8 @@ public interface IAppointmentService
     Task<Result<AppointmentDto>> CreateAsync(CreateAppointmentRequest request, CancellationToken ct = default);
     Task<Result<AppointmentDto>> UpdateAsync(Guid appointmentId, UpdateAppointmentRequest request, CancellationToken ct = default);
     Task<Result<AppointmentDto>> ConfirmAsync(Guid appointmentId, CancellationToken ct = default);
+    /// <summary>Reception: patient arrived + payment confirmed. Scheduled/Confirmed → CheckedIn.</summary>
+    Task<Result<AppointmentDto>> CheckInAsync(Guid appointmentId, CancellationToken ct = default);
     Task<Result<AppointmentDto>> CompleteAsync(Guid appointmentId, CancellationToken ct = default);
     Task<Result<AppointmentDto>> CancelAsync(Guid appointmentId, string reason, CancellationToken ct = default);
     Task<Result> DeleteAsync(Guid appointmentId, CancellationToken ct = default);

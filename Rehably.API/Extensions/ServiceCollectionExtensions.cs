@@ -50,6 +50,8 @@ using Rehably.Application.Services.Clinic;
 using Rehably.Infrastructure.Services.Library;
 using Rehably.Application.Validators.Clinic;
 using Rehably.Infrastructure.Jobs;
+using Rehably.Application.Services.Clinical;
+using Rehably.Infrastructure.Services.Clinical;
 
 namespace Rehably.API.Extensions;
 
@@ -224,6 +226,11 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IAssessmentService, AssessmentService>();
         services.AddScoped<IDeviceService, DeviceService>();
         services.AddScoped<ITreatmentStageService, TreatmentStageService>();
+
+        // Clinical assessment system
+        services.AddScoped<ISpecialityService, SpecialityService>();
+        services.AddScoped<IDiagnosisService, DiagnosisService>();
+        services.AddScoped<IPatientAssessmentService, PatientAssessmentService>();
 
         return services;
     }

@@ -90,6 +90,19 @@ public class ClinicAppointmentsController : BaseController
     }
 
     /// <summary>
+    /// Reception check-in: patient arrived and payment confirmed.
+    /// Transitions status: Scheduled/Confirmed → CheckedIn.
+    /// </summary>
+    [HttpPost("{id:guid}/checkin")]
+    [ProducesResponseType(typeof(ApiResponse<AppointmentDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<AppointmentDto>> CheckIn(Guid id, CancellationToken cancellationToken = default)
+    {
+        var result = await _appointmentService.CheckInAsync(id, cancellationToken);
+        return FromResult(result);
+    }
+
+    /// <summary>
     /// Confirm an appointment.
     /// </summary>
     [HttpPost("{id:guid}/confirm")]

@@ -164,6 +164,33 @@ public class AppointmentService : IAppointmentService
     public async Task<Result<AppointmentDto>> ConfirmAsync(Guid appointmentId, CancellationToken ct = default)
         => await ChangeStatusAsync(appointmentId, AppointmentStatus.Confirmed, ct);
 
+    public async Task<Result<AppointmentDto>> CheckInAsync(Guid appointmentId, CancellationToken ct = default)
+    {
+        try
+        {
+            var clinicId = _tenantContext.GetCurrentTenantId();
+            var a = await _context.Appointments
+                .Include(x => x.Patient)
+                .FirstOrDefaultAsync(x => x.Id == appointmentId && x.ClinicId == clinicId, ct);
+
+            if (a == null) return Result<AppointmentDto>.Failure("Appointment not found.");
+
+            if (a.Status != AppointmentStatus.Scheduled && a.Status != AppointmentStatus.Confirmed)
+                return Result<AppointmentDto>.Failure(
+                    "Only scheduled or confirmed appointments can be checked in.");
+
+            a.Status = AppointmentStatus.CheckedIn;
+            a.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync(ct);
+            return Result<AppointmentDto>.Success(MapToDto(a));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error checking in appointment {AppointmentId}", appointmentId);
+            return Result<AppointmentDto>.Failure("Failed to check in appointment.");
+        }
+    }
+
     public async Task<Result<AppointmentDto>> CompleteAsync(Guid appointmentId, CancellationToken ct = default)
         => await ChangeStatusAsync(appointmentId, AppointmentStatus.Completed, ct);
 
