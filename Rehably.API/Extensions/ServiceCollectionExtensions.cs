@@ -171,6 +171,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IFeatureService, FeatureService>();
         services.AddScoped<IFeaturePricingService, FeaturePricingService>();
+        services.AddScoped<IAdminDashboardService, AdminDashboardService>();
         services.AddScoped<IFeatureCategoryService, FeatureCategoryService>();
         services.AddScoped<IPricingService, PricingService>();
         services.AddScoped<IPackageService, PackageService>();
@@ -231,6 +232,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISpecialityService, SpecialityService>();
         services.AddScoped<IDiagnosisService, DiagnosisService>();
         services.AddScoped<IPatientAssessmentService, PatientAssessmentService>();
+        services.AddScoped<IAssessmentFieldConfigService, AssessmentFieldConfigService>();
 
         return services;
     }
